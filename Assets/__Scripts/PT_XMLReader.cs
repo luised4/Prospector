@@ -69,7 +69,7 @@ public class PT_XMLReader {
 				// In that case, we just need to add an @ key/value to the hashtable
 				eS = eS.Trim(); // I think this is redundant
 				//eH["@"] = eS;
-				eH.text = eS;
+				eH.Text = eS;
 			}
 			return(""); // We're done with this tag
 		}
@@ -79,7 +79,7 @@ public class PT_XMLReader {
 			int ndx2 = eS.IndexOf("?>");
 			string header = eS.Substring(ndx, ndx2-ndx+2);
 			//eH["@XML_Header"] = header;
-			eH.header = header;
+			eH.Header = header;
 			return(eS.Substring(ndx2+2));
 		}
 		// Ignore this if it is an XML comment (e.g. <!-- Comment text -->)
@@ -148,7 +148,7 @@ public class PT_XMLReader {
 			}
 			val = val.Trim('\"');
 			//thisHash[att] = val; // All attributes have to be unique, so this should be okay.
-			thisHash.attSet(att, val);
+			thisHash.AttSet(att, val);
 		}
 		
 		
@@ -209,7 +209,7 @@ public class PT_XMLHashList {
 		}
 	}
 	
-	public int length {
+	public int Length {
 		get {
 			return(list.Count);
 		}
@@ -258,13 +258,13 @@ public class PT_XMLHashtable {
 		}
 	}
 	
-	public string att(string attKey) {
+	public string Att(string attKey) {
 		int ndx = AttIndex(attKey);
 		if (ndx == -1) return("");
 		return( attributesList[ndx] );
 	}
 	
-	public void attSet(string attKey, string val) {
+	public void AttSet(string attKey, string val) {
 		int ndx = AttIndex(attKey);
 		if (ndx == -1) {
 			attKeys.Add(attKey);
@@ -274,7 +274,7 @@ public class PT_XMLHashtable {
 		}
 	}
 	
-	public string text {
+	public string Text {
 		get {
 			int ndx = AttIndex("@");
 			if (ndx == -1) return( "" );
@@ -292,7 +292,7 @@ public class PT_XMLHashtable {
 	}
 	
 	
-	public string header {
+	public string Header {
 		get {
 			int ndx = AttIndex("@XML_Header");
 			if (ndx == -1) return( "" );
@@ -310,7 +310,7 @@ public class PT_XMLHashtable {
 	}
 	
 	
-	public string nodes {
+	public string Nodes {
 		get {
 			string s = "";
 			foreach (string key in keys) {
@@ -320,7 +320,7 @@ public class PT_XMLHashtable {
 		}
 	}
 	
-	public string attributes {
+	public string Attributes {
 		get {
 			string s = "";
 			foreach (string attKey in attKeys) {
