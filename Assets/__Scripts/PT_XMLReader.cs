@@ -51,6 +51,8 @@ public class PT_XMLReader {
 	// This function will parse a possible series of tags
 	void Parse(string eS, PT_XMLHashtable eH) {
 		eS = eS.Trim();
+        // Replace any tabs with spaces
+        eS = eS.Replace('\t',' ');
 		while(eS.Length > 0) {
 			eS = ParseTag(eS, eH);
 			eS = eS.Trim();
@@ -69,7 +71,7 @@ public class PT_XMLReader {
 				// In that case, we just need to add an @ key/value to the hashtable
 				eS = eS.Trim(); // I think this is redundant
 				//eH["@"] = eS;
-				eH.Text = eS;
+				eH.text = eS;
 			}
 			return(""); // We're done with this tag
 		}
@@ -79,7 +81,7 @@ public class PT_XMLReader {
 			int ndx2 = eS.IndexOf("?>");
 			string header = eS.Substring(ndx, ndx2-ndx+2);
 			//eH["@XML_Header"] = header;
-			eH.Header = header;
+			eH.header = header;
 			return(eS.Substring(ndx2+2));
 		}
 		// Ignore this if it is an XML comment (e.g. <!-- Comment text -->)
@@ -148,7 +150,7 @@ public class PT_XMLReader {
 			}
 			val = val.Trim('\"');
 			//thisHash[att] = val; // All attributes have to be unique, so this should be okay.
-			thisHash.AttSet(att, val);
+			thisHash.attSet(att, val);
 		}
 		
 		
@@ -209,7 +211,7 @@ public class PT_XMLHashList {
 		}
 	}
 	
-	public int Length {
+	public int length {
 		get {
 			return(list.Count);
 		}
@@ -258,13 +260,13 @@ public class PT_XMLHashtable {
 		}
 	}
 	
-	public string Att(string attKey) {
+	public string att(string attKey) {
 		int ndx = AttIndex(attKey);
 		if (ndx == -1) return("");
 		return( attributesList[ndx] );
 	}
 	
-	public void AttSet(string attKey, string val) {
+	public void attSet(string attKey, string val) {
 		int ndx = AttIndex(attKey);
 		if (ndx == -1) {
 			attKeys.Add(attKey);
@@ -274,7 +276,7 @@ public class PT_XMLHashtable {
 		}
 	}
 	
-	public string Text {
+	public string text {
 		get {
 			int ndx = AttIndex("@");
 			if (ndx == -1) return( "" );
@@ -292,7 +294,7 @@ public class PT_XMLHashtable {
 	}
 	
 	
-	public string Header {
+	public string header {
 		get {
 			int ndx = AttIndex("@XML_Header");
 			if (ndx == -1) return( "" );
@@ -310,7 +312,7 @@ public class PT_XMLHashtable {
 	}
 	
 	
-	public string Nodes {
+	public string nodes {
 		get {
 			string s = "";
 			foreach (string key in keys) {
@@ -320,7 +322,7 @@ public class PT_XMLHashtable {
 		}
 	}
 	
-	public string Attributes {
+	public string attributes {
 		get {
 			string s = "";
 			foreach (string attKey in attKeys) {

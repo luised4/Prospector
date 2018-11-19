@@ -39,7 +39,7 @@ public class Deck : MonoBehaviour
     public void InitDeck(string deckXMLText)
     {
         //this creates an anchor for all the card GameObjects in the hierarchy
-        if (GameObject.Find("_Deck") == null)
+        if(GameObject.Find("_Deck") == null)
         {
             GameObject anchorGO = new GameObject("_Deck");
             deckAnchor = anchorGO.transform;
@@ -67,10 +67,10 @@ public class Deck : MonoBehaviour
 
         //this prints a tst line
         string s = "xml[0] decorator[0] ";
-        s += "type=" + xmlr.xml["xml"][0]["decorator"][0].Att("type");
-        s += "x=" + xmlr.xml["xml"][0]["decorator"][0].Att("x");
-        s += "y=" + xmlr.xml["xml"][0]["decorator"][0].Att("y");
-        s += "scale=" + xmlr.xml["xml"][0]["decorator"][0].Att("scale");
+        s += "type=" + xmlr.xml["xml"][0]["decorator"][0].att("type");
+        s += "x=" + xmlr.xml["xml"][0]["decorator"][0].att("x");
+        s += "y=" + xmlr.xml["xml"][0]["decorator"][0].att("y");
+        s += "scale=" + xmlr.xml["xml"][0]["decorator"][0].att("scale");
         //print(s);
 
         //read decorators for all cards
@@ -80,26 +80,24 @@ public class Deck : MonoBehaviour
         PT_XMLHashList xDecos = xmlr.xml["xml"][0]["decorator"];
         Decorator deco;
 
-        for (int i = 0; i < xDecos.Count; i++)
+        for(int i = 0; i < xDecos.Count; i++)
         {
             //for each <decorator> in the XML
-#pragma warning disable IDE0017 // Simplify object initialization
             deco = new Decorator(); // Make new decorator
-#pragma warning restore IDE0017 // Simplify object initialization
 
             //copy attributes of the <decorator> to the Decorator
-            deco.type = xDecos[i].Att("type");
+            deco.type = xDecos[i].att("type");
 
             //bool deco.flip is true if the text of the flip attribute is 1
-            deco.flip = (xDecos[i].Att("flip") == "1");
+            deco.flip = (xDecos[i].att("flip") == "1");
 
             //floats need to be parsed from the attribute strings
-            deco.scale = float.Parse(xDecos[i].Att("scale"));
+            deco.scale = float.Parse(xDecos[i].att("scale"));
 
             //Vector3 loc initializes to [0,0,0], we just need to modify it
-            deco.loc.x = float.Parse(xDecos[i].Att("x"));
-            deco.loc.y = float.Parse(xDecos[i].Att("y"));
-            deco.loc.z = float.Parse(xDecos[i].Att("z"));
+            deco.loc.x = float.Parse(xDecos[i].att("x"));
+            deco.loc.y = float.Parse(xDecos[i].att("y"));
+            deco.loc.z = float.Parse(xDecos[i].att("z"));
 
             //add the temporary deco to the List decorators
             decorators.Add(deco);
@@ -111,37 +109,35 @@ public class Deck : MonoBehaviour
         //grab PT_XMLHashlist of all <card>s in the XML file
         PT_XMLHashList xCardDefs = xmlr.xml["xml"][0]["card"];
 
-        for (int i = 0; i < xCardDefs.Count; i++)
+        for(int i = 0; i < xCardDefs.Count; i++)
         {
             //for each of the <card>s
             //create a new card definition
-            CardDefinition cardDefinition = new CardDefinition();
-            CardDefinition cDef = cardDefinition;
+            CardDefinition cDef = new CardDefinition();
 
             //parse the attribute values and add them to cDef
-            cDef.rank = int.Parse(xCardDefs[i].Att("rank"));
+            cDef.rank = int.Parse(xCardDefs[i].att("rank"));
 
             //grab PT_XMLHashlist of all the <pip>s on this <card>
             PT_XMLHashList xPips = xCardDefs[i]["pip"];
 
-            if (xPips != null)
+            if(xPips != null)
             {
-                for (int j = 0; j < xPips.Count; j++)
+                for(int j = 0; j < xPips.Count; j++)
                 {
                     //iterate through all the <pip>s
-                    Decorator decorator = new Decorator();
-                    deco = decorator;
+                    deco = new Decorator();
 
                     //<pip>s on the <card> are handles via the Decorator Class
                     deco.type = "pip";
-                    deco.flip = (xPips[j].Att("flip") == "1");
-                    deco.loc.x = float.Parse(xPips[j].Att("x"));
-                    deco.loc.y = float.Parse(xPips[j].Att("y"));
-                    deco.loc.z = float.Parse(xPips[j].Att("z"));
+                    deco.flip = (xPips[j].att("flip") == "1");
+                    deco.loc.x = float.Parse(xPips[j].att("x"));
+                    deco.loc.y = float.Parse(xPips[j].att("y"));
+                    deco.loc.z = float.Parse(xPips[j].att("z"));
 
-                    if (xPips[j].HasAtt("scale"))
+                    if(xPips[j].HasAtt("scale"))
                     {
-                        deco.scale = float.Parse(xPips[j].Att("scale"));
+                        deco.scale = float.Parse(xPips[j].att("scale"));
                     }
 
                     cDef.pips.Add(deco);
@@ -149,9 +145,9 @@ public class Deck : MonoBehaviour
             }
 
             //face cards (jack, queen, king) have a face attribute
-            if (xCardDefs[i].HasAtt("face"))
+            if(xCardDefs[i].HasAtt("face"))
             {
-                cDef.face = xCardDefs[i].Att("face");
+                cDef.face = xCardDefs[i].att("face");
             }
 
             cardDefs.Add(cDef);
@@ -162,16 +158,16 @@ public class Deck : MonoBehaviour
     public CardDefinition GetCardDefinitionByRank(int rnk)
     {
         //search through all of the CardDefinitions
-        foreach (CardDefinition cd in cardDefs)
+        foreach(CardDefinition cd in cardDefs)
         {
             //if the rank is correct, return this definition
-            if (cd.rank == rnk)
+            if(cd.rank == rnk)
             {
-                return (cd);
+                return(cd);
             }
         }
 
-        return (null);
+        return(null);
     }
 
     //make the card GameObjects
@@ -182,9 +178,9 @@ public class Deck : MonoBehaviour
         cardNames = new List<string>();
         string[] letters = new string[] { "C", "D", "H", "S" };
 
-        foreach (string s in letters)
+        foreach(string s in letters)
         {
-            for (int i = 0; i < 13; i++)
+            for(int i = 0; i < 13; i++)
             {
                 cardNames.Add(s + (i + 1));
             }
@@ -194,7 +190,7 @@ public class Deck : MonoBehaviour
         cards = new List<Card>();
 
         //iterate through all of the card names that were just made
-        for (int i = 0; i < cardNames.Count; i++)
+        for(int i = 0; i < cardNames.Count; i++)
         {
             //make the card and add it to the cards deck
             cards.Add(MakeCard(i));
@@ -218,7 +214,7 @@ public class Deck : MonoBehaviour
         card.suit = card.name[0].ToString();
         card.rank = int.Parse(card.name.Substring(1));
 
-        if (card.suit == "D" || card.suit == "H")
+        if(card.suit == "D" || card.suit == "H")
         {
             card.colS = "Red";
             card.color = Color.red;
@@ -243,9 +239,9 @@ public class Deck : MonoBehaviour
     private void AddDecorators(Card card)
     {
         //add decorators
-        foreach (Decorator deco in decorators)
+        foreach(Decorator deco in decorators)
         {
-            if (deco.type == "suit")
+            if(deco.type == "suit")
             {
                 //instantiate a sprite GameObject
                 _tGO = Instantiate(prefabSprite) as GameObject;
@@ -282,14 +278,14 @@ public class Deck : MonoBehaviour
             _tGO.transform.localPosition = deco.loc;
 
             //flip the decorator if needed
-            if (deco.flip)
+            if(deco.flip)
             {
                 //an euler rotation of 180 degrees around the Z-axis will flip it
                 _tGO.transform.rotation = Quaternion.Euler(0, 0, 180);
             }
 
             //set the scale to keep decos from being too big
-            if (deco.scale != 1)
+            if(deco.scale != 1)
             {
                 _tGO.transform.localScale = Vector3.one * deco.scale;
             }
@@ -305,7 +301,7 @@ public class Deck : MonoBehaviour
     private void AddPips(Card card)
     {
         //for each of the pips in the definition...
-        foreach (Decorator pip in card.def.pips)
+        foreach(Decorator pip in card.def.pips)
         {
             // ...instantiate a pip game object
             _tGO = Instantiate(prefabSprite) as GameObject;
@@ -317,13 +313,13 @@ public class Deck : MonoBehaviour
             _tGO.transform.localPosition = pip.loc;
 
             //flip it if necessary
-            if (pip.flip)
+            if(pip.flip)
             {
                 _tGO.transform.rotation = Quaternion.Euler(0, 0, 180);
             }
 
             //scale it if necessary (only for the ace)
-            if (pip.scale != 1)
+            if(pip.scale != 1)
             {
                 _tGO.transform.localScale = Vector3.one * pip.scale;
             }
@@ -347,7 +343,7 @@ public class Deck : MonoBehaviour
 
     private void AddFace(Card card)
     {
-        if (card.def.face == "")
+        if(card.def.face == "")
         {
             return; //no need to run if this isn't a face card
         }
@@ -367,18 +363,18 @@ public class Deck : MonoBehaviour
     //find the proper face card sprite
     private Sprite GetFace(string faceS)
     {
-        foreach (Sprite _tSP in faceSprites)
+        foreach(Sprite _tSP in faceSprites)
         {
             //if this sprite has the right name...
-            if (_tSP.name == faceS)
+            if(_tSP.name == faceS)
             {
                 //...then return the sprite
-                return (_tSP);
+                return(_tSP);
             }
         }
 
         //if nothing can be found, return null
-        return (null);
+        return(null);
     }
 
     private void AddBack(Card card)
@@ -397,7 +393,7 @@ public class Deck : MonoBehaviour
         card.back = _tGO;
 
         //default to face up
-        card.FaceUp = startFaceUp; // Use the property faceUp of card
+        card.faceUp = startFaceUp; // Use the property faceUp of card
     }
 
     //shuffle the cards in Deck.cards
@@ -410,7 +406,7 @@ public class Deck : MonoBehaviour
         tCards = new List<Card>(); //initialize the temporary list
 
         //repeat as long as there are cards in the original list
-        while (oCards.Count > 0)
+        while(oCards.Count > 0)
         {
             //pick the index of a random card
             ndx = Random.Range(0, oCards.Count);

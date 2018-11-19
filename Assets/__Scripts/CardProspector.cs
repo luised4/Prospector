@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CardState
+public enum eCardState
 {
     drawpile,
     tableau,
@@ -11,10 +12,10 @@ public enum CardState
 }
 
 public class CardProspector : Card
-{
+{ 
     //CardProspector extends card
     [Header("Set Dynamically: CardProspector")]
-    public CardState state = CardState.drawpile;
+    public eCardState state = eCardState.drawpile;
 
     //this hiddenBy list stores which other cards will keep this one face down
     public List<CardProspector> hiddenby = new List<CardProspector>();

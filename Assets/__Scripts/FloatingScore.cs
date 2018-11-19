@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 //an enum to track the possible states of a FloatingScore
-public enum FSState
+public enum eFSState
 {
     idle,
     pre,
@@ -16,24 +16,24 @@ public enum FSState
 public class FloatingScore : MonoBehaviour
 {
     [Header("Set Dynamically")]
-    public FSState state = FSState.idle;
+    public eFSState state = eFSState.idle;
 
     [SerializeField]
     private int _score = 0;
     public string scoreString;
 
     //the score property sets both _score and scoreString
-    public int Score
+    public int score
     {
         get
         {
-            return (_score);
+            return(_score);
         }
 
         set
         {
             _score = value;
-            scoreString = Score.ToString("N0"); //"N0" adds commands to the num
+            scoreString = score.ToString("N0"); //"N0" adds commands to the num
 
             //search "C# standard numeric format strings" for ToString formats
             GetComponent<Text>().text = scoreString;
@@ -60,36 +60,36 @@ public class FloatingScore : MonoBehaviour
 
         bezierPts = new List<Vector2>(ePts);
 
-        if (ePts.Count == 1)
-        {
+        if(ePts.Count == 1)
+        {   
             //if theres only one point												
             transform.position = ePts[0];
             return;
         }
 
         //if eTimeS is the default, just start at the current time			
-        if (eTimeS == 0)
+        if(eTimeS == 0)
         {
             eTimeS = Time.time;
         }
 
         timeStart = eTimeS;
         timeDuration = eTimeD;
-        state = FSState.pre; //set it to the pre state, ready to start moving			
+        state = eFSState.pre; //set it to the pre state, ready to start moving			
     }
 
     public void FSCallback(FloatingScore fs)
     {
         //when this callback is called by SendMessage,
         //add the score from the calling FloatingScore
-        Score += fs.Score;
+        score += fs.score;
     }
 
     //update is called once per frame
     void Update()
     {
         //if this is not moving, just return							
-        if (state == FSState.idle)
+        if (state == eFSState.idle)
         {
             return;
         }
@@ -101,23 +101,23 @@ public class FloatingScore : MonoBehaviour
         //use easing class from utils to curve the u value								
         float uC = Easing.Ease(u, easingCurve);
 
-        if (u < 0)
-        {
+        if(u < 0)
+        { 
             //if u < 0, then we shouldn't move yet
-            state = FSState.pre;
+            state = eFSState.pre;
             txt.enabled = false; //hide the score initally
         }
 
         else
         {
-            if (u >= 1)
-            {
+            if(u >= 1)
+            { 
                 //if u >= 1, we're done moving
                 uC = 1; //Set uC=1 so we don't overshoot
-                state = FSState.post;
+                state = eFSState.post;
 
-                if (reportFinishTo != null)
-                {
+                if(reportFinishTo != null)
+                { 
                     //if theres a callback game object
                     //use SendMessage to call the FSCallback method with this parameter
                     reportFinishTo.SendMessage("FSCallback", this);
@@ -127,16 +127,16 @@ public class FloatingScore : MonoBehaviour
                 }
 
                 else
-                {
+                {   
                     //if there is nothing to callback
-                    state = FSState.idle;
+                    state = eFSState.idle;
                 }
             }
 
             else
             {
                 //0 <= u <= 1, which means that this is active and moving
-                state = FSState.active;
+                state = eFSState.active;
                 txt.enabled = true;
             }
 
@@ -147,7 +147,7 @@ public class FloatingScore : MonoBehaviour
             //to total size of the screen
             rectTrans.anchorMin = rectTrans.anchorMax = pos;
 
-            if (fontSizes != null && fontSizes.Count > 0)
+            if(fontSizes != null && fontSizes.Count > 0)
             {
                 //if fontSizes has a value in it, then adjust the fontsize
                 int size = Mathf.RoundToInt(Utils.Bezier(uC, fontSizes));

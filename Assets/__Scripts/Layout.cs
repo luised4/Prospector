@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -41,8 +42,8 @@ public class Layout : MonoBehaviour
         xml = xmlr.xml["xml"][0]; //xml is set as a shortcut to the XML
 
         //read in the multiplier, which sets card spacing
-        multiplier.x = float.Parse(xml["multiplier"][0].Att("x"));
-        multiplier.y = float.Parse(xml["multiplier"][0].Att("y"));
+        multiplier.x = float.Parse(xml["multiplier"][0].att("x"));
+        multiplier.y = float.Parse(xml["multiplier"][0].att("y"));
 
         //read in the slots
         SlotDef tSD;
@@ -50,14 +51,14 @@ public class Layout : MonoBehaviour
         //slotsX is used as a shortcut to all the <slot>s
         PT_XMLHashList slotsX = xml["slot"];
 
-        for (int i = 0; i < slotsX.Count; i++)
+        for(int i = 0; i < slotsX.Count; i++)
         {
             tSD = new SlotDef();
 
-            if (slotsX[i].HasAtt("type"))
+            if(slotsX[i].HasAtt("type"))
             {
                 //parse the slot if it has a type attribute
-                tSD.type = slotsX[i].Att("type");
+                tSD.type = slotsX[i].att("type");
             }
 
             else
@@ -67,24 +68,24 @@ public class Layout : MonoBehaviour
             }
 
             //various attributes are parsed into numberical values
-            tSD.x = float.Parse(slotsX[i].Att("x"));
-            tSD.y = float.Parse(slotsX[i].Att("y"));
-            tSD.layerID = int.Parse(slotsX[i].Att("layer"));
+            tSD.x = float.Parse(slotsX[i].att("x"));
+            tSD.y = float.Parse(slotsX[i].att("y"));
+            tSD.layerID = int.Parse(slotsX[i].att("layer"));
 
             //this convers the number of layerID ontp a text layerName
             tSD.layerName = sortingLayerNames[tSD.layerID];
 
             //pull additional attributes based ont the type of <slot>
-            switch (tSD.type)
+            switch(tSD.type)
             {
                 case "slot":
-                    tSD.faceUp = (slotsX[i].Att("faceup") == "1");
-                    tSD.id = int.Parse(slotsX[i].Att("id"));
+                    tSD.faceUp = (slotsX[i].att("faceup") == "1");
+                    tSD.id = int.Parse(slotsX[i].att("id"));
 
-                    if (slotsX[i].HasAtt("hiddenby"))
+                    if(slotsX[i].HasAtt("hiddenby"))
                     {
-                        string[] hiding = slotsX[i].Att("hiddenby").Split(',');
-                        foreach (string s in hiding)
+                        string[] hiding = slotsX[i].att("hiddenby").Split(',');
+                        foreach(string s in hiding)
                         {
                             tSD.hiddenBy.Add(int.Parse(s));
                         }
@@ -94,7 +95,7 @@ public class Layout : MonoBehaviour
                     break;
 
                 case "drawpile":
-                    tSD.stagger.x = float.Parse(slotsX[i].Att("xstagger"));
+                    tSD.stagger.x = float.Parse(slotsX[i].att("xstagger"));
                     drawPile = tSD;
                     break;
 

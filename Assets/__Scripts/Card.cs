@@ -32,7 +32,7 @@ public class Card : MonoBehaviour
     //if spriteRenderers is not yet defined, this function will define it
     public void PopulateSpriteRenderers()
     {
-        if (spriteRenderers == null || spriteRenderers.Length == 0)
+        if(spriteRenderers == null || spriteRenderers.Length == 0)
         {
             //get spriteRenderer components of this GameObject and its children
             spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
@@ -44,7 +44,7 @@ public class Card : MonoBehaviour
     {
         PopulateSpriteRenderers();
 
-        foreach (SpriteRenderer tSR in spriteRenderers)
+        foreach(SpriteRenderer tSR in spriteRenderers)
         {
             tSR.sortingLayerName = tSLN;
         }
@@ -56,9 +56,9 @@ public class Card : MonoBehaviour
         PopulateSpriteRenderers();
 
         //iterate through all the spriteRenderers as tSR
-        foreach (SpriteRenderer tSR in spriteRenderers)
+        foreach(SpriteRenderer tSR in spriteRenderers)
         {
-            if (tSR.gameObject == this.gameObject)
+            if(tSR.gameObject == this.gameObject)
             {
                 //if the gameObject is this.gameObject, its the background
                 tSR.sortingOrder = sOrd;
@@ -67,7 +67,7 @@ public class Card : MonoBehaviour
             }
 
             //switch based on the names
-            switch (tSR.gameObject.name)
+            switch(tSR.gameObject.name)
             {
                 case "back":
                     //set to the highest layer to cover the other sprites 
@@ -83,11 +83,11 @@ public class Card : MonoBehaviour
         }
     }
 
-    public bool FaceUp
+    public bool faceUp
     {
         get
         {
-            return (!back.activeSelf);
+            return(!back.activeSelf);
         }
 
         set
@@ -104,23 +104,24 @@ public class Card : MonoBehaviour
     }
 }
 
-[System.Serializable] //serializable class, can be edited in inspector
-public class Decorator
-{
-    //class that stores info about each decorator or pip from DeckXML
+    [System.Serializable] //serializable class, can be edited in inspector
+    public class Decorator
+    {
+        //class that stores info about each decorator or pip from DeckXML
 
-    public string type; //for card pips, type = "pip"
-    public Vector3 loc; //location of the sprite on the card
-    public bool flip = false; //whether to flip the sprite vertically
-    public float scale = 1f; //scale of the sprite
-}
+        public string type; //for card pips, type = "pip"
+        public Vector3 loc; //location of the sprite on the card
+        public bool flip = false; //whether to flip the sprite vertically
+        public float scale = 1f; //scale of the sprite
+    }
 
-[System.Serializable]
-public class CardDefinition
-{
-    //stores info on the rank of each card
+    [System.Serializable]
+    public class CardDefinition
+    {
+        //stores info on the rank of each card
 
-    public string face; //sprite to use for each face card
-    public int rank; //the rank (1-13) of this card
-    public List<Decorator> pips = new List<Decorator>(); //pips used
-}
+        public string face; //sprite to use for each face card
+        public int rank; //the rank (1-13) of this card
+        public List<Decorator> pips = new List<Decorator>(); //pips used
+    }
+

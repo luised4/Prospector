@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //enum to handle all the possible scoring events
-public enum ScoreEvent
+public enum eScoreEvent
 {
     draw,
     mine,
@@ -26,7 +26,7 @@ public class ScoreManager : MonoBehaviour
 
     void Awake()
     {
-        if (S == null)
+        if(S == null)
         {
             S = this; //set the private singleton
         }
@@ -37,7 +37,7 @@ public class ScoreManager : MonoBehaviour
         }
 
         //check for a high score in the PlayerPrefs
-        if (PlayerPrefs.HasKey("ProspectorHighScore"))
+        if(PlayerPrefs.HasKey("ProspectorHighScore"))
         {
             HIGH_SCORE = PlayerPrefs.GetInt("ProspectorHighScore");
         }
@@ -49,7 +49,7 @@ public class ScoreManager : MonoBehaviour
         SCORE_FROM_PREV_ROUND = 0;
     }
 
-    public static void EVENT(ScoreEvent evt)
+    public static void EVENT(eScoreEvent evt)
     {
         try
         { //try-catch stops an error from breaking your program
@@ -62,20 +62,20 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    void Event(ScoreEvent evt)
+    void Event(eScoreEvent evt)
     {
         switch (evt)
         {
             //same things need to happen whether it's a draw, a win, or a lose
-            case ScoreEvent.draw: //drawing the card
-            case ScoreEvent.gameWin: //won the round
-            case ScoreEvent.gameLoss: //lost the round
+            case eScoreEvent.draw: //drawing the card
+            case eScoreEvent.gameWin: //won the round
+            case eScoreEvent.gameLoss: //lost the round
                 chain = 0;
                 score += scoreRun;
                 scoreRun = 0;
                 break;
 
-            case ScoreEvent.mine:
+            case eScoreEvent.mine:
                 chain++;
                 scoreRun += chain;
                 break;
@@ -84,7 +84,7 @@ public class ScoreManager : MonoBehaviour
         //this second switch statement handles round wins and loses
         switch (evt)
         {
-            case ScoreEvent.gameWin:
+            case eScoreEvent.gameWin:
 
                 //if its a win, add the score to the next round
                 //static fields are NOT reset by SceneManager.LoadScene()
@@ -92,10 +92,10 @@ public class ScoreManager : MonoBehaviour
                 print("You won this round! Round Score " + score);
                 break;
 
-            case ScoreEvent.gameLoss:
+            case eScoreEvent.gameLoss:
 
                 //if its a loss, check against the high score
-                if (HIGH_SCORE <= score)
+                if(HIGH_SCORE <= score)
                 {
                     print("You got the high score! High Score: " + score);
                     HIGH_SCORE = score;

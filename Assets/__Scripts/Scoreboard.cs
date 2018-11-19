@@ -19,26 +19,26 @@ public class Scoreboard : MonoBehaviour
     private Transform canvasTrans;
 
     //the score property also sets the scoreString
-    public int Score
+    public int score
     {
         get
         {
-            return (_score);
+            return(_score);
         }
 
         set
         {
             _score = value;
-            ScoreString = _score.ToString("N0");
+            scoreString = _score.ToString("N0");
         }
     }
 
     //the scoreString property also sets the Text.text			
-    public string ScoreString
+    public string scoreString
     {
         get
         {
-            return (_scoreString);
+            return(_scoreString);
         }
 
         set
@@ -50,7 +50,7 @@ public class Scoreboard : MonoBehaviour
 
     void Awake()
     {
-        if (S == null)
+        if(S == null)
         {
             S = this;
         }
@@ -66,7 +66,7 @@ public class Scoreboard : MonoBehaviour
     //when called by SendMessage, this adds the fs.score to this.score
     public void FSCallback(FloatingScore fs)
     {
-        Score += fs.Score;
+        score += fs.score;
     }
 
     //this will instantiate a new FloatingScore GameObject and initialize it
@@ -78,7 +78,7 @@ public class Scoreboard : MonoBehaviour
         go.transform.SetParent(canvasTrans);
 
         FloatingScore fs = go.GetComponent<FloatingScore>();
-        fs.Score = amt;
+        fs.score = amt;
         fs.reportFinishTo = this.gameObject; //set fs to call back to this							
         fs.Init(pts);
         return (fs);
