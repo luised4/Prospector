@@ -20,8 +20,8 @@ public class SlotDef
 
 public class Layout : MonoBehaviour
 {
-    public PT_XMLReader xmlr;
-    public PT_XMLHashtable xml; //used for faster xml access
+    public PT_XMLReader xmlr;//Just like Deck, this has a PT_XMLReader
+    public PT_XMLHashtable xml; //This variable is for faster xml access
     public Vector2 multiplier; //the offset of the tableau's center
 
     //SlotDef references

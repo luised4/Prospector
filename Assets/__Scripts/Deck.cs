@@ -7,7 +7,7 @@ public class Deck : MonoBehaviour
     [Header("Set in Inspector")]
     public bool startFaceUp = false;
 
-    //suits
+   
     public Sprite suitClub;
     public Sprite suitDiamond;
     public Sprite suitHeart;
@@ -20,8 +20,7 @@ public class Deck : MonoBehaviour
     public Sprite cardBackGold;
     public Sprite cardFront;
     public Sprite cardFrontGold;
-
-    //prefabs
+    
     public GameObject prefabCard;
     public GameObject prefabSprite;
 

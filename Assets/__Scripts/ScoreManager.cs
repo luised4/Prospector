@@ -11,7 +11,7 @@ public enum eScoreEvent
     gameWin,
     gameLoss
 }
-
+//ScoreManager Handles all of the scoring
 public class ScoreManager : MonoBehaviour
 {
     private static ScoreManager S;
