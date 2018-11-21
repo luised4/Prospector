@@ -40,11 +40,11 @@ public class FloatingScore : MonoBehaviour
         }
     }
 
-    public List<Vector2> bezierPts; //bezier points for movement
-    public List<float> fontSizes;   //bezier points for font scaling
+    public List<Vector2> bezierPts; 
+    public List<float> fontSizes;   
     public float timeStart = -1f;
     public float timeDuration = 1f;
-    public string easingCurve = Easing.InOut; //uses easing in Utils.cs
+    public string easingCurve = Easing.InOut; 
 
     //the GameObject that will receive the SendMessage when this is done moving
     public GameObject reportFinishTo = null;
@@ -75,7 +75,7 @@ public class FloatingScore : MonoBehaviour
 
         timeStart = eTimeS;
         timeDuration = eTimeD;
-        state = eFSState.pre; //set it to the pre state, ready to start moving			
+        state = eFSState.pre; //set it to the pres tate, ready to start moving			
     }
 
     public void FSCallback(FloatingScore fs)
