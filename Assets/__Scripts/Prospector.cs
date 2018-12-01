@@ -96,6 +96,7 @@ public class Prospector : MonoBehaviour
         layout.ReadLayout(layoutXML.text); //pass LayoutXML to it
         drawPile = ConvertListCardsTOListCardProspectors(deck.cards);
         LayoutGame();
+        SetUpUITexts();
     }
 
     List<CardProspector> ConvertListCardsTOListCardProspectors(List<Card> lCD)
